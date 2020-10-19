@@ -67,11 +67,8 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         // Rx 메모리 누수 방지
 
-        if (!initObservable.isDisposed) {
+        if (!initObservable.isDisposed || !searchObservable.isDisposed) {
             initObservable.dispose()
-        }
-
-        if (!searchObservable.isDisposed) {
             searchObservable.dispose()
         }
     }
