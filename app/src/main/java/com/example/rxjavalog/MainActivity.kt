@@ -14,38 +14,55 @@ import com.example.rxjavalog.model.ResultGetSearchMovie
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.collections.ArrayList
 
 private const val TAG = "Tag"
+private const val CLIENT_ID = ""
+private const val CLIENT_SECRET = ""
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var initObservable: Disposable
     private var searchObservable = CompositeDisposable()
     private val searchMovieList = ArrayList<ResultGetSearchMovie.Items>()
     private var searchMovieAdapter = SearchMovieAdapter(null, searchMovieList)
-    private val naverMovieClient = NaverMovieClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // 초기 데이터 세팅
-        searchText()
-        runRetrofit()
+        tv_search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (query != "") {
+                    Log.d(TAG, "Search Start = Query ($query)")
+                    val callGetSearchMovie = NaverMovieClient().retrofit.getSearchMovie(CLIENT_ID, CLIENT_SECRET, query, 50, 1)
+                    runMovieSearch(callGetSearchMovie)
+                } else {
+                    Toast.makeText(applicationContext, "검색어를 입력하세요", Toast.LENGTH_LONG).show()
+                }
 
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
     }
 
     @SuppressLint("CheckResult")
-    private fun runRetrofit() {
-        naverMovieClient.callGetSearchMovie
+    private fun runMovieSearch(callGetSearchMovie: Observable<ResultGetSearchMovie>) {
+        // 컬렉션 초기화
+        searchMovieList.clear()
+
+        // Retrofit2 + Observable 데이터 통지 시작
+        val searchRetrofit = callGetSearchMovie
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext{
-                data -> Log.e(TAG,"Retrofit Observable onNext : $data")
+            .doOnNext { data ->
+                Log.d(TAG, "Retrofit Observable onNext : $data")
             }
             .doOnError { error ->
                 Log.e(TAG, "Retrofit Observable Error : $error")
@@ -61,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
                 // onError
                 { error ->
-                    Log.e(TAG,"Retrofit Error : $error")
+                    Log.e(TAG, "Retrofit Error : $error")
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("Unknown Error")
                         .setMessage("Unknown Error. Please retry \n\nError exception code : $error")
@@ -71,47 +88,21 @@ class MainActivity : AppCompatActivity() {
 
                 // onComplete
                 {
-                    layout_store_recyclerView.run{
+                    layout_store_recyclerView.run {
                         adapter = SearchMovieAdapter(context, searchMovieList)
                         searchMovieAdapter = adapter as SearchMovieAdapter
                         layoutManager = LinearLayoutManager(context)
                         setHasFixedSize(true)
+                        adapter?.notifyDataSetChanged()
                     }
                 }
             )
-    }
-
-    @SuppressLint("CheckResult")
-    private fun searchText() {
-        val searchDisposable: Disposable = Observable.create<String> { emitter ->
-            tv_search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    if (searchMovieList.contains(query)) {
-                        emitter.onNext(query)
-                    } else {
-                        Toast.makeText(this@MainActivity, "No Match Found", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String): Boolean {
-                    emitter.onNext(newText)
-                    return false
-                }
-            })
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { data ->
-                searchMovieAdapter.filter.filter(data)
-            }
-
-        searchObservable.add(searchDisposable)
+        searchObservable.add(searchRetrofit)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // Rx 메모리 누수 방지
+        // 메모리 누수 방지
         if (!searchObservable.isDisposed) {
             searchObservable.dispose()
         }

@@ -5,42 +5,34 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rxjavalog.R
 import com.example.rxjavalog.model.ResultGetSearchMovie
 import kotlinx.android.synthetic.main.item_movie.view.*
 
-class SearchMovieAdapter(context: Context?, var storeItems: ArrayList<ResultGetSearchMovie.Items>) :
-    RecyclerView.Adapter<SearchMovieAdapter.ViewHolder>(), Filterable {
+class SearchMovieAdapter(context: Context?, movieItems: ArrayList<ResultGetSearchMovie.Items>) :
+    RecyclerView.Adapter<SearchMovieAdapter.ViewHolder>() {
 
-    private var filteredList = ArrayList<ResultGetSearchMovie.Items>()
-    private var unFilteredList = ArrayList<ResultGetSearchMovie.Items>()
+    private var getMovieList = ArrayList<ResultGetSearchMovie.Items>()
     private val viewContext = context
 
     init {
         // 필터링된 리스트 (검색된 내용, 초기에는 모든 내용 포함)
-        this.filteredList = storeItems
-        // 필터링 안된 리스트 (모든 내용)
-        this.unFilteredList = storeItems
+        this.getMovieList = movieItems
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): SearchMovieAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMovieAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: SearchMovieAdapter.ViewHolder, position: Int) {
-        val currentItem = filteredList[position]
+        val currentItem = getMovieList[position]
         holder.bind(currentItem)
     }
 
-    override fun getItemCount(): Int = filteredList.size
+    override fun getItemCount(): Int = getMovieList.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @SuppressLint("SetTextI18n")
@@ -55,42 +47,6 @@ class SearchMovieAdapter(context: Context?, var storeItems: ArrayList<ResultGetS
                 tv_movie_actor.text = "Actor : ${item.actor.replace("|", " ")}"
                 tv_movie_naverUserRating.text = "Naver UserRating : ${item.userRating}"
             }
-
         }
     }
-
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                // list init
-                filteredList = storeItems
-
-                val charString = constraint.toString()
-
-                if (charString.isEmpty()) {
-                    filteredList = unFilteredList
-                } else {
-                    val filteringList = ArrayList<ResultGetSearchMovie.Items>()
-
-                    for (movielist: ResultGetSearchMovie.Items in filteredList) {
-                        if (movielist.title.toLowerCase().contains(charString.toLowerCase())) {
-                            // 검색된 리스트
-                            filteringList.add(movielist)
-                        }
-                    }
-                    filteredList = filteringList
-                }
-
-                val filterResult = FilterResults()
-                filterResult.values = filteredList
-                return filterResult
-            }
-
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredList = results?.values as ArrayList<ResultGetSearchMovie.Items>
-                notifyDataSetChanged()
-            }
-        }
-    }
-
 }

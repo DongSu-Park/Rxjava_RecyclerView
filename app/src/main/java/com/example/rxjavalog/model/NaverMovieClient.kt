@@ -10,8 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 // 주의! : CLIENT_ID, CLIENT_SECRET api key 는 Hidden 처리 해야함
 private const val BASE_URL_API = "https://openapi.naver.com/"
-private const val CLIENT_ID = ""
-private const val CLIENT_SECRET = ""
+
 
 class NaverMovieClient {
     fun getGson() : Gson{
@@ -31,7 +30,4 @@ class NaverMovieClient {
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(OkHttpClient())
         .build().create(NaverMovieApi::class.java)
-
-    val callGetSearchMovie =
-        retrofit.getSearchMovie(CLIENT_ID, CLIENT_SECRET, "테스트", 50, 1)
 }
