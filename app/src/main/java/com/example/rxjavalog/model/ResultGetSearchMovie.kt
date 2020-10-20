@@ -32,7 +32,7 @@ data class ResultGetSearchMovie(
         @SerializedName("actor")
         var actor : String = "",
         @SerializedName("userRating")
-        var userRating : Double = 0.0
+        var userRating : String = ""
     )
 }
 

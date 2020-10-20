@@ -46,8 +46,8 @@ class SearchMovieAdapter(context: Context?, var storeItems: ArrayList<ResultGetS
         @SuppressLint("SetTextI18n")
         fun bind(item: ResultGetSearchMovie.Items) {
             // 텍스트뷰, 이미지 바인딩
-            itemView.run{
-                Glide.with(viewContext!!).load(item.image).into(iv_movie_image)
+            itemView.run {
+                Glide.with(viewContext!!).load(item.image).error(R.drawable.ic_baseline_movie_24).into(iv_movie_image)
                 tv_movie_title.text = item.title.replace("<b>", "").replace("</b>", "")
                 tv_movie_subtitle.text = item.subtitle
                 tv_movie_pubdate.text = "Date : ${item.pubDate}"

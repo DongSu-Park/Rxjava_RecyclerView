@@ -44,6 +44,12 @@ class MainActivity : AppCompatActivity() {
         naverMovieClient.callGetSearchMovie
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext{
+                data -> Log.e(TAG,"Retrofit Observable onNext : $data")
+            }
+            .doOnError { error ->
+                Log.e(TAG, "Retrofit Observable Error : $error")
+            }
             .subscribe(
                 // onComplete
                 { data ->
@@ -55,6 +61,7 @@ class MainActivity : AppCompatActivity() {
 
                 // onError
                 { error ->
+                    Log.e(TAG,"Retrofit Error : $error")
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("Unknown Error")
                         .setMessage("Unknown Error. Please retry \n\nError exception code : $error")
@@ -105,9 +112,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         // Rx 메모리 누수 방지
-
-        if (!initObservable.isDisposed || !searchObservable.isDisposed) {
-            initObservable.dispose()
+        if (!searchObservable.isDisposed) {
             searchObservable.dispose()
         }
     }
