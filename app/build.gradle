@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -26,6 +27,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -44,6 +49,12 @@ dependencies {
 
     // ui
     implementation 'com.google.android.material:material:1.2.1'
+
+    // mvvm
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.2.0"
+    implementation "androidx.activity:activity-ktx:1.1.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

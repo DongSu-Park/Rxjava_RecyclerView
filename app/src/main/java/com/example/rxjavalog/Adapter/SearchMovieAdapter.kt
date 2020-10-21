@@ -11,16 +11,11 @@ import com.example.rxjavalog.R
 import com.example.rxjavalog.model.ResultGetSearchMovie
 import kotlinx.android.synthetic.main.item_movie.view.*
 
-class SearchMovieAdapter(context: Context?, movieItems: ArrayList<ResultGetSearchMovie.Items>) :
+class SearchMovieAdapter(context: Context?) :
     RecyclerView.Adapter<SearchMovieAdapter.ViewHolder>() {
 
-    private var getMovieList = ArrayList<ResultGetSearchMovie.Items>()
+    private var getSearchedMovieList = ArrayList<ResultGetSearchMovie.Items>()
     private val viewContext = context
-
-    init {
-        // 필터링된 리스트 (검색된 내용, 초기에는 모든 내용 포함)
-        this.getMovieList = movieItems
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMovieAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
@@ -28,11 +23,11 @@ class SearchMovieAdapter(context: Context?, movieItems: ArrayList<ResultGetSearc
     }
 
     override fun onBindViewHolder(holder: SearchMovieAdapter.ViewHolder, position: Int) {
-        val currentItem = getMovieList[position]
+        val currentItem = getSearchedMovieList[position]
         holder.bind(currentItem)
     }
 
-    override fun getItemCount(): Int = getMovieList.size
+    override fun getItemCount(): Int = getSearchedMovieList.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @SuppressLint("SetTextI18n")
@@ -48,5 +43,10 @@ class SearchMovieAdapter(context: Context?, movieItems: ArrayList<ResultGetSearc
                 tv_movie_naverUserRating.text = "Naver UserRating : ${item.userRating}"
             }
         }
+    }
+
+    fun setItems(items : ArrayList<ResultGetSearchMovie.Items>){
+        this.getSearchedMovieList = items
+        notifyDataSetChanged()
     }
 }
