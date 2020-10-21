@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.rxjavalog.R
 
-object bindAdapter {
+object BindAdapter {
     @JvmStatic
     @BindingAdapter("bind_image")
     fun bindImage(view: ImageView, image: String) {
