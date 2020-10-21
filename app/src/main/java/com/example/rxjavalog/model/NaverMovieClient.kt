@@ -1,6 +1,6 @@
 package com.example.rxjavalog.model
 
-import com.example.rxjavalog.Adapter.EmptyStringToNumberTypeAdapter
+import com.example.rxjavalog.adapter.EmptyStringToNumberTypeAdapter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient

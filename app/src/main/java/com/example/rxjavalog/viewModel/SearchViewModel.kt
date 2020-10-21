@@ -1,20 +1,18 @@
-package com.example.rxjavalog.ViewModel
+package com.example.rxjavalog.viewModel
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.rxjavalog.model.NaverMovieClient
 import com.example.rxjavalog.model.ResultGetSearchMovie
-import com.example.rxjavalog.ui.MainActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-private const val CLIENT_ID = "7zx2Rf8hv8MfasasLq3f"
-private const val CLIENT_SECRET = "fXly52dN8o"
+private const val CLIENT_ID = ""
+private const val CLIENT_SECRET = ""
 private const val TAG = "Observable Tag"
 
 class SearchViewModel : ViewModel() {

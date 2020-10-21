@@ -1,4 +1,4 @@
-package com.example.rxjavalog.Adapter
+package com.example.rxjavalog.adapter
 
 import com.google.gson.JsonSyntaxException
 import com.google.gson.TypeAdapter

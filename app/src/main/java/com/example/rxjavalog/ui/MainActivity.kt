@@ -9,11 +9,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rxjavalog.Adapter.SearchMovieAdapter
+import com.example.rxjavalog.adapter.SearchMovieAdapter
 import com.example.rxjavalog.R
-import com.example.rxjavalog.ViewModel.SearchViewModel
+import com.example.rxjavalog.viewModel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.RuntimeException
 
 private const val TAG = "Tag"
 
