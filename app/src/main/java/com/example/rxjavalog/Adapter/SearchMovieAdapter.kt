@@ -41,7 +41,7 @@ class SearchMovieAdapter(context: Context?, movieItems: ArrayList<ResultGetSearc
             itemView.run {
                 Glide.with(viewContext!!).load(item.image).error(R.drawable.ic_baseline_movie_24).into(iv_movie_image)
                 tv_movie_title.text = item.title.replace("<b>", "").replace("</b>", "")
-                tv_movie_subtitle.text = item.subtitle
+                tv_movie_subtitle.text = item.subtitle.replace("<b>", "").replace("</b>", "")
                 tv_movie_pubdate.text = "Date : ${item.pubDate}"
                 tv_movie_director.text = "Director : ${item.director.replace("|", " ")}"
                 tv_movie_actor.text = "Actor : ${item.actor.replace("|", " ")}"

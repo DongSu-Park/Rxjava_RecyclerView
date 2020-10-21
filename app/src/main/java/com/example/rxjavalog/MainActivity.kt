@@ -19,8 +19,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.collections.ArrayList
 
 private const val TAG = "Tag"
-private const val CLIENT_ID = ""
-private const val CLIENT_SECRET = ""
+private const val CLIENT_ID = "7zx2Rf8hv8MfasasLq3f"
+private const val CLIENT_SECRET = "fXly52dN8o"
 
 class MainActivity : AppCompatActivity() {
 
