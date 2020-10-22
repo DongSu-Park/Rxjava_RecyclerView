@@ -14,7 +14,6 @@ data class ResultGetSearchMovie(
     var display : Int = 0,
     @SerializedName("items")
     var items: List<Items>
-
 ){
     data class Items(
         @SerializedName("title")

@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query != "") {
                     Log.d(TAG, "Search Start = Query ($query)")
-                    viewModel.getMovieList(query)
+                    viewModel.setMovieList(query)
 
                     // LiveData 적용
                     viewModel.liveSearchedMovieList.observe(this@MainActivity, Observer { items ->
@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 return false
             }
+
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
             }
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         // onError 발생 시 alertDialog 호출
         viewModel.showErrorAlertDialog.observe(this, Observer {
-            if(it == true){
+            if (it == true) {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Unknown Error")
                     .setMessage("Unknown Error. Please retry \n\nError exception code : ${viewModel.errorCode}")
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (!viewModel.searchObservable.isDisposed){
+        if (!viewModel.searchObservable.isDisposed) {
             viewModel.searchObservable.dispose()
         }
     }
