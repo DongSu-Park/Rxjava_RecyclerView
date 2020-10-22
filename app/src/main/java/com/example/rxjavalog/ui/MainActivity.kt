@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val searchMovieAdapter = SearchMovieAdapter(this)
+        val searchMovieAdapter = SearchMovieAdapter()
 
         layout_store_recyclerView.run {
             adapter = searchMovieAdapter
@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
             setHasFixedSize(true)
         }
 
-        // 초기 데이터 세팅 (바인딩 전 메인에서는 이것만 남아야 함)
         tv_search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query != "") {

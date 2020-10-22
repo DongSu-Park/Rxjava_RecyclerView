@@ -12,7 +12,6 @@ private const val CLIENT_SECRET = ""
 private const val TAG = "Observable Tag"
 
 class SearchMovieRepository {
-
     // Observable
     @SuppressLint("CheckResult")
     fun getMovieList(query : String) : Observable<ResultGetSearchMovie> {

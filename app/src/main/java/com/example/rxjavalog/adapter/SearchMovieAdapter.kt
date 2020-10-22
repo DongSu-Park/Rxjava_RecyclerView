@@ -11,8 +11,7 @@ import com.example.rxjavalog.databinding.ItemMovieBinding
 import com.example.rxjavalog.model.ResultGetSearchMovie
 import kotlinx.android.synthetic.main.item_movie.view.*
 
-class SearchMovieAdapter(context: Context?) :
-    RecyclerView.Adapter<ViewHolder>() {
+class SearchMovieAdapter : RecyclerView.Adapter<ViewHolder>() {
     private var getSearchedMovieList = ArrayList<ResultGetSearchMovie.Items>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
