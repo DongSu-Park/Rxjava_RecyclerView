@@ -2,15 +2,12 @@ package com.example.rxjavalog.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rxjavalog.adapter.SearchMovieAdapter
 import com.example.rxjavalog.R
 import com.example.rxjavalog.databinding.ActivityMainBinding

@@ -2,7 +2,6 @@ package com.example.rxjavalog.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rxjavalog.databinding.ItemGridTitleBinding
 import com.example.rxjavalog.model.ResultGetSearchMovie

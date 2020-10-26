@@ -3,12 +3,10 @@ package com.example.rxjavalog.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.RatingBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.rxjavalog.R
 import com.example.rxjavalog.databinding.ActivityMoviedetailBinding
-import kotlinx.android.synthetic.main.activity_moviedetail.*
 
 class MovieDetailActivity : AppCompatActivity() {
     var image : String? = null
