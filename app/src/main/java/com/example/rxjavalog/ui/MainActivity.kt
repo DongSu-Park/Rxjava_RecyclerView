@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rxjavalog.adapter.SearchMovieAdapter
 import com.example.rxjavalog.R
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         layout_store_recyclerView.run {
             adapter = searchMovieAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager = GridLayoutManager(this@MainActivity, 2)
             setHasFixedSize(true)
         }
 

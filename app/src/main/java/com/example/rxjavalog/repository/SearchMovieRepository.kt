@@ -8,8 +8,8 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-private const val CLIENT_ID = "7zx2Rf8hv8MfasasLq3f"
-private const val CLIENT_SECRET = "fXly52dN8o"
+private const val CLIENT_ID = ""
+private const val CLIENT_SECRET = ""
 private const val TAG = "Observable Tag"
 
 class SearchMovieRepository {
