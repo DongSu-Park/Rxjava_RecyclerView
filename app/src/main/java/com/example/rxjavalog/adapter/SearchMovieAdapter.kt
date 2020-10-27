@@ -7,7 +7,7 @@ import com.example.rxjavalog.databinding.ItemGridTitleBinding
 import com.example.rxjavalog.model.ResultGetSearchMovie
 
 class SearchMovieAdapter() : RecyclerView.Adapter<ViewHolder>() {
-    private var getSearchedMovieList = ArrayList<ResultGetSearchMovie.Items>()
+    private var getSearchedMovieList = ArrayList<ResultGetSearchMovie.Results>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemGridTitleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -23,7 +23,7 @@ class SearchMovieAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
     override fun getItemCount(): Int = getSearchedMovieList.size
 
-    fun setItems(items : ArrayList<ResultGetSearchMovie.Items>){
+    fun setItems(items : ArrayList<ResultGetSearchMovie.Results>){
         this.getSearchedMovieList = items
         notifyDataSetChanged()
     }

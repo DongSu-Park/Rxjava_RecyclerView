@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ic_baseline_movie_24"
-            app:bind_image="@{itemViewHolder.image}"/>
+            app:bind_poster_image="@{itemViewHolder.posterPath}"/>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         layout_store_recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            var startCount = 1
+            var nextPage = 1
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -79,9 +79,9 @@ class MainActivity : AppCompatActivity() {
                 val itemTotalCount = recyclerView.adapter?.itemCount?.minus(1)
 
                 if (lastVisibleItemPosition == itemTotalCount) {
-                    startCount += 10
-                    if (searchViewModel.totalSize!! > startCount) {
-                        searchViewModel.setMoreMovieList(startCount)
+                    nextPage += 1
+                    if (searchViewModel.totalPage!! >= nextPage) {
+                        searchViewModel.setMoreMovieList(nextPage)
                     } else {
                         Toast.makeText(this@MainActivity, "마지막 페이지 입니다", Toast.LENGTH_LONG).show()
                     }

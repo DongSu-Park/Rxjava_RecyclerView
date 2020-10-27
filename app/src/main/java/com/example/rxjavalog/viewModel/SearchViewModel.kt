@@ -11,11 +11,10 @@ import io.reactivex.disposables.CompositeDisposable
 private const val TAG = "Observable Tag"
 
 class SearchViewModel : ViewModel() {
-    private val getMovieListItems = ArrayList<ResultGetSearchMovie.Items>()
-    private val getTotalListItems = ArrayList<ResultGetSearchMovie>()
+    private val getMovieListItems = ArrayList<ResultGetSearchMovie.Results>()
     private val searchMovieRepository = SearchMovieRepository()
     var searchObservable = CompositeDisposable()
-    val liveSearchedMovieList = MutableLiveData<ArrayList<ResultGetSearchMovie.Items>>()
+    val liveSearchedMovieList = MutableLiveData<ArrayList<ResultGetSearchMovie.Results>>()
     val showErrorAlertDialog = MutableLiveData(false)
     val showToastMessage = MutableLiveData(false)
 
@@ -23,9 +22,8 @@ class SearchViewModel : ViewModel() {
     var searchText : String? = ""
     var searchQuery : String? = ""
 
-    private val display : Int = 10
-    var start : Int = 1
-    var totalSize : Int? = null
+    var startPage : Int = 1
+    var totalPage : Int? = null
 
     // Subscribe
     @SuppressLint("CheckResult")
@@ -36,16 +34,16 @@ class SearchViewModel : ViewModel() {
 
             // Observable Start
             searchQuery = query
-            val getMovieListItem = searchMovieRepository.getMovieList(searchQuery!!, display, start)
+            val getMovieListItem = searchMovieRepository.getMovieList(searchQuery!!, startPage)
 
             // Subscribe Start
             val setMovieListItem = getMovieListItem
                 .subscribe(
                     // onNext
                     { data ->
-                        totalSize = data.total
+                        totalPage = data.totalPages
 
-                        data.items.iterator().forEach {
+                        data.results.iterator().forEach {
                             getMovieListItems.add(it)
                             Log.d(TAG, "search movie data size = ${getMovieListItems.size}")
                         }
@@ -70,16 +68,16 @@ class SearchViewModel : ViewModel() {
         }
     }
 
-    fun setMoreMovieList(startCount : Int){
-        val getMoreMovieListItem = searchMovieRepository.getMovieList(searchQuery!!, display, startCount)
+    fun setMoreMovieList(nextPage : Int){
+        val getMoreMovieListItem = searchMovieRepository.getMovieList(searchQuery!!, nextPage)
 
         val setMoreMovieListItem = getMoreMovieListItem
             .subscribe(
                 // onNext
                 { data ->
-                    totalSize = data.total
+                    totalPage = data.totalPages
 
-                    data.items.iterator().forEach {
+                    data.results.iterator().forEach {
                         getMovieListItems.add(it)
                         Log.d(TAG, "search movie data size = ${getMovieListItems.size}")
                     }

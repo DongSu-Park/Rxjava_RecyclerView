@@ -7,50 +7,53 @@ import com.example.rxjavalog.databinding.ItemGridTitleBinding
 import com.example.rxjavalog.model.ResultGetSearchMovie
 import com.example.rxjavalog.ui.MovieDetailActivity
 
+private const val imageOriginPath : String = "https://image.tmdb.org/t/p/w500"
+private const val tmdbOriginPath : String = "https://www.themoviedb.org/movie/"
+
 class ViewHolder(itemGridTitleBinding: ItemGridTitleBinding, context: Context) :
     RecyclerView.ViewHolder(itemGridTitleBinding.root) {
     private var binding = itemGridTitleBinding
     private val mainContext = context
 
-    var image: String? = null
-    var link: String? = null
+    var voteCount: Int? = null
+    var voteAverage: String? = null
     var title: String? = null
-    var subTitle: String? = null
-    var pubDate: String? = null
-    var director: String? = null
-    var actor: String? = null
-    var naverUserRating: String? = null
+    var releaseDate: String? = null
+    var originalTitle: String? = null
+    var posterPath: String? = null
+    var backdropPath: String? = null
+    var overview: String? = null
+    var link : String? = null
 
-    fun bind(item: ResultGetSearchMovie.Items) {
+    fun bind(item: ResultGetSearchMovie.Results) {
         binding.run {
             itemViewHolder = this@ViewHolder
         }
 
         // 텍스트뷰, 이미지 바인딩
-        image = item.image
-        link = item.link
-        title = item.title.replace("<b>", "").replace("</b>", "")
-        subTitle = item.subtitle.replace("<b>", "").replace("</b>", "")
-        pubDate = "개봉일 : ${item.pubDate}"
-        director = "감독 : ${item.director.replace("|", ", ")}"
-        director = director!!.substring(0, director!!.length-2)
-        actor = "주연 : ${item.actor.replace("|", ", ")}"
-        actor = actor!!.substring(0, actor!!.length-2)
-        naverUserRating = item.userRating
+        title = item.title
+        posterPath = imageOriginPath + item.posterPath
+        voteCount = item.voteCount
+        voteAverage = item.voteAverage
+        releaseDate = item.releaseDate
+        originalTitle = item.originalTitle
+        backdropPath = imageOriginPath + item.backdropPath
+        overview = item.overview
+        link = tmdbOriginPath + item.id
     }
 
     fun imgOnClick(){
         val intent = Intent(mainContext, MovieDetailActivity::class.java)
 
         intent.run{
-            putExtra("image", image)
-            putExtra("link", link)
+            putExtra("backdropPath", backdropPath)
             putExtra("title", title)
-            putExtra("subTitle", subTitle)
-            putExtra("pubDate", pubDate)
-            putExtra("director", director)
-            putExtra("actor", actor)
-            putExtra("naverUserRating", naverUserRating)
+            putExtra("originalTitle", originalTitle)
+            putExtra("voteCount", voteCount)
+            putExtra("voteAverage", voteAverage)
+            putExtra("releaseDate", releaseDate)
+            putExtra("overview", overview)
+            putExtra("link", link)
         }
 
         // startActivity

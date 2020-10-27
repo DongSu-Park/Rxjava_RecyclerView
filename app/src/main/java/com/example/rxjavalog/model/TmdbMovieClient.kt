@@ -7,9 +7,9 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL_API = "https://openapi.naver.com/"
+private const val BASE_URL_API = "https://api.themoviedb.org/3/"
 
-class NaverMovieClient {
+class TmdbMovieClient {
     fun getGson(): Gson {
         val gsonBuilder = GsonBuilder()
         gsonBuilder.registerTypeAdapter(Int::class.java, EmptyStringToNumberTypeAdapter())
@@ -21,9 +21,9 @@ class NaverMovieClient {
         return gson
     }
 
-    val retrofit: NaverMovieApi = Retrofit.Builder()
+    val retrofit: TmdbMovieApi = Retrofit.Builder()
         .baseUrl(BASE_URL_API)
         .addConverterFactory(GsonConverterFactory.create(getGson()))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-        .build().create(NaverMovieApi::class.java)
+        .build().create(TmdbMovieApi::class.java)
 }
