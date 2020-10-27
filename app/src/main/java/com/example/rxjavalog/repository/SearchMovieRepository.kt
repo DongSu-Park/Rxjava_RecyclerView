@@ -8,7 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-private const val API_KEY = "07a7465ce3c9d6c2ee2193948869ee8b"
+private const val API_KEY = ""
 private const val TAG = "Observable Tag"
 
 class SearchMovieRepository {
