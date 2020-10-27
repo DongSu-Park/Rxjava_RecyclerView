@@ -15,8 +15,8 @@ private const val TAG = "Observable Tag"
 class SearchMovieRepository {
     // Observable
     @SuppressLint("CheckResult")
-    fun getMovieList(query : String) : Observable<ResultGetSearchMovie> {
-        return NaverMovieClient().retrofit.getSearchMovie(CLIENT_ID, CLIENT_SECRET, query, 50, 1)
+    fun getMovieList(query : String, display : Int, start : Int) : Observable<ResultGetSearchMovie> {
+        return NaverMovieClient().retrofit.getSearchMovie(CLIENT_ID, CLIENT_SECRET, query, display, start)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { data ->

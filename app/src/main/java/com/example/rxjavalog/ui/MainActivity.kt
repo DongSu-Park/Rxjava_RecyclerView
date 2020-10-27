@@ -8,13 +8,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rxjavalog.adapter.SearchMovieAdapter
 import com.example.rxjavalog.R
 import com.example.rxjavalog.databinding.ActivityMainBinding
 import com.example.rxjavalog.viewModel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-
-private const val TAG = "Tag"
 
 class MainActivity : AppCompatActivity() {
     private val searchViewModel: SearchViewModel by viewModels()
@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val binding =
+            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewmodel = searchViewModel
 
@@ -33,10 +34,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         // LiveData Observer
-        searchViewModel.run{
+        searchViewModel.run {
             // 검색 결과 LiveData
             liveSearchedMovieList.observe(this@MainActivity, Observer {
-                if (it.size > 0){
+                if (it.size > 0) {
                     searchMovieAdapter.setItems(it)
                 } else {
                     Toast.makeText(this@MainActivity, "검색된 결과가 없습니다", Toast.LENGTH_LONG).show()
@@ -45,8 +46,9 @@ class MainActivity : AppCompatActivity() {
 
             // 검색 전 텍스트 뷰에 내용이 없을 시
             showToastMessage.observe(this@MainActivity, Observer {
-                if (it == true){
-                    Toast.makeText(this@MainActivity, "Please Text Input...", Toast.LENGTH_LONG).show()
+                if (it == true) {
+                    Toast.makeText(this@MainActivity, "Please Text Input...", Toast.LENGTH_LONG)
+                        .show()
 
                     searchViewModel.showToastMessage.value = false
                 }
@@ -66,6 +68,27 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+
+        layout_store_recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            var startCount = 1
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastVisibleItemPosition =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                val itemTotalCount = recyclerView.adapter?.itemCount?.minus(1)
+
+                if (lastVisibleItemPosition == itemTotalCount) {
+                    startCount += 10
+                    if (searchViewModel.totalSize!! > startCount) {
+                        searchViewModel.setMoreMovieList(startCount)
+                    } else {
+                        Toast.makeText(this@MainActivity, "마지막 페이지 입니다", Toast.LENGTH_LONG).show()
+                    }
+
+                }
+            }
+        })
 
     }
 
