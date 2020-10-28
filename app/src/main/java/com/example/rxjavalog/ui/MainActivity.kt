@@ -1,9 +1,18 @@
 package com.example.rxjavalog.ui
 
+import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Message
+import android.util.Base64
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -15,6 +24,8 @@ import com.example.rxjavalog.R
 import com.example.rxjavalog.databinding.ActivityMainBinding
 import com.example.rxjavalog.viewModel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
+import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
     private val searchViewModel: SearchViewModel by viewModels()

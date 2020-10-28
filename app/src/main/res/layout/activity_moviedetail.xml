@@ -190,6 +190,7 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:background="#e5da40"
+                    android:onClick="@{() -> detailMovie.kakaoLinkFeed()}"
                     app:layout_constraintTop_toBottomOf="@id/ly_detail_tmdbLink"
                     app:layout_constraintStart_toStartOf="@id/ly_detail_tmdbLink">
 
