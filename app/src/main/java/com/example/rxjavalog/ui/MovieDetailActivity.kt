@@ -4,26 +4,21 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.example.rxjavalog.R
 import com.example.rxjavalog.databinding.ActivityMoviedetailBinding
+import com.example.rxjavalog.viewModel.SearchViewModel
 import com.kakao.sdk.common.KakaoSdk
-import com.kakao.sdk.link.LinkClient
-import com.kakao.sdk.link.rx
-import com.kakao.sdk.template.model.Button
-import com.kakao.sdk.template.model.Content
-import com.kakao.sdk.template.model.FeedTemplate
-import com.kakao.sdk.template.model.Link
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
-private const val TAG = "Kakao Link Log"
-private const val KAKAO_API_KEY = ""
+private const val KAKAO_API_KEY = "7421b2a110e56a237704a30c42c89a43"
 
 class MovieDetailActivity : AppCompatActivity() {
+    private val searchViewModel: SearchViewModel by viewModels()
+
     var voteCount: String? = null
     var voteAverage: String? = null
     var title: String? = null
@@ -65,46 +60,25 @@ class MovieDetailActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
     fun kakaoLinkFeed() {
-        // 버튼 null 부분은 앱 링크 활성화시 적용
-        val kakaoLink = Link(link!!, link!!)
+        searchViewModel.kakaoLinkFeedIntent(link!!,title!!,backdropPath!!)
 
-        val content = Content(
-            title!!,
-            backdropPath!!,
-            kakaoLink,
-            "$title 의 내용을 TMDB Movie Finder 에서 찾아보세요!!"
-        )
-        val buttons: List<Button> =
-            listOf(Button("웹으로 보기", kakaoLink), Button("앱으로 보기", Link(androidExecParams = mapOf(), iosExecParams = null)))
+        searchViewModel.run{
+            liveKakaoFeedCallBack.observe(this@MovieDetailActivity, Observer {
+                startActivity(it.intent)
+            })
 
-        val feedMessage = FeedTemplate(content, null, buttons)
+            showErrorAlertDialog.observe(this@MovieDetailActivity, Observer {
+                if (it == true){
+                    val builder = AlertDialog.Builder(this@MovieDetailActivity)
+                    builder.setTitle("Unknown Error")
+                        .setMessage("Unknown Error. Please retry \n\nError exception code : ${searchViewModel.errorCode}")
+                        .setPositiveButton("확인") { _, _ -> }
+                        .show()
 
-        // 해당 로직 테스트 완료 후 Repository, ViewModel 로 변경 (context 관련은 확인해야함)
-        // 해당 Observable 은 Single
-        val kakaoLinkObservable = LinkClient.rx.defaultTemplate(this, feedMessage)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+                    searchViewModel.showErrorAlertDialog.value = false
+                }
+            })
+        }
 
-        kakaoLinkObservable.subscribe(
-            // onSuccess
-            { data ->
-                Log.d(TAG, "카카오 링크 보내기 성공 ${data.intent}")
-                startActivity(data.intent)
-
-                Log.w(TAG, "Warning Msg : ${data.warningMsg}")
-                Log.w(TAG, "Argument Msg : ${data.argumentMsg}")
-            },
-
-            // onError
-            { error ->
-                Log.e(TAG, "카카오 링크 보내기 실패", error)
-
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("Unknown Error")
-                    .setMessage("Unknown Error. Please retry \n\nError exception code : ${error.message}")
-                    .setPositiveButton("확인") { _, _ -> }
-                    .show()
-            }
-        )
     }
 }

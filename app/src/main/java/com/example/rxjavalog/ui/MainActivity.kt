@@ -105,6 +105,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        // CompositeDisposable 과 연결된 모든 Observable 구독 해제
         if (!searchViewModel.searchObservable.isDisposed) {
             searchViewModel.searchObservable.dispose()
         }
