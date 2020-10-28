@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
                     android:host="kakaolink"
-                    android:scheme="kakao7421b2a110e56a237704a30c42c89a43"/>
+                    android:scheme="kakao"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
