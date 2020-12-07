@@ -63,6 +63,11 @@ class MainActivity : AppCompatActivity() {
                         .show()
 
                     searchViewModel.showToastMessage.value = false
+                }else {
+                    Toast.makeText(this@MainActivity, "Please Else Text Input...", Toast.LENGTH_LONG)
+                        .show()
+
+                    searchViewModel.showToastMessage.value = true
                 }
             })
 
