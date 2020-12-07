@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // LiveData Observer
+        // 커밋 테스트
         searchViewModel.run {
             // 검색 결과 LiveData
             liveSearchedMovieList.observe(this@MainActivity, Observer {
