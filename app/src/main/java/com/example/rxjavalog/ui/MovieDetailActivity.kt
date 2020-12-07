@@ -14,7 +14,7 @@ import com.example.rxjavalog.databinding.ActivityMoviedetailBinding
 import com.example.rxjavalog.viewModel.SearchViewModel
 import com.kakao.sdk.common.KakaoSdk
 
-private const val KAKAO_API_KEY = ""
+private const val KAKAO_API_KEY = "7421b2a110e56a237704a30c42c89a43"
 
 class MovieDetailActivity : AppCompatActivity() {
     private val searchViewModel: SearchViewModel by viewModels()
